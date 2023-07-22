@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+          crossorigin="anonymous"></script>
+
+          <script type="text/javascript">
+            $(document).on('submit','#todo-form',function(e)
+                           {
+              console.log($("#todo").val());
+              e.preventDefault();
+              $.ajax({
+                type:'POST',
+                url:'/',
+                data:{
+                  todo:$("#todo").val()
+                },
+                success:function()
+                {
+                  alert('saved');
+                }
+              })
+            });
+          </script>
+<html>
+<head>
+  <title>AI Video Context</title>
+  <style>
+	   body {
+	  margin: 0;
+	  padding: 0;
+	  font-family: Arial, sans-serif;
+	  background-color: #f3f3f3;
+	  position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+	}
+
+	body::before {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-image: url('/static/ai_background_2.jpg');
+	  background-size: fit;
+	  background-repeat: no-repeat;
+	  background-position: center;
+	  z-index: -1;
+	}
+
+	.container {
+	  max-width: 800px;
+	  margin: 0 auto;
+	  padding: 40px;
+	  position: relative;
+	  z-index: 1;
+    height: 90vh;
+	}
+    
+    .container {
+     
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    
+    .logo {
+     width:400px;
+	 margin-left:100px;
+	 margin-right:100px;	
+     margin:auto;
+    }
+    
+    .h1-animation {
+      font-size: 45px;
+      color: white;
+      text-align: center;
+      animation: revealWords 2s ease-in-out;
+      animation-fill-mode: forwards;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+	  margin:auto;
+	  padding-top:150px;
+    }
+    
+    @keyframes revealWords {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    .h1-animation span {
+      display: inline-block;
+      animation: revealWord 1s ease-in-out forwards;
+      opacity: 0;
+    }
+    
+    @keyframes revealWord {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .h2-heading {
+      font-size:18px;
+      color: white;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+    
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    .button {
+      margin-top: 20px;
+    }
+    
+    .button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #a51515	;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button a:hover {
+      background-color: #ff2222;
+    }
+	 .prompt-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    
+    .prompt-input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+    }
+    
+    .generate-button {
+      margin-left: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+	.prompt-container {
+	  width:800px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+	
+  </style>
+</head>
+<body>
+  <div class="container">
+	 <div class="prompt-container">
+		 <!-- <img class="logo" src="ai-logo-1.png" alt="AI Logo">-->
+		  <h1 class="h1-animation">
+			  <span>Welcome</span>
+			  <span>to</span>
+			  <span>AI</span>
+			  <span>Video</span>
+			  <span>Content</span>
+		  </h1>
+	</div>
+   
+	 <div class="prompt-container">
+    <form action="#" method="post" id="todo-form" class="prompt-container">
+      <input type="text" id="todo" name="txt_Query"class="prompt-input" placeholder="Enter your prompt query">
+      <input type="submit" class="generate-button" value="Genrate"/>
+    </div>
+  
+    <h2 class="h2-heading">Generate perfectly sized creatives for Facebook, Instagram, LinkedIn, Pinterest, Twitter and more!</h2>
+   
+  </div>
+</body>
+</html>

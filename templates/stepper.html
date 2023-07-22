@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to update the UI with progress data
+        function updateProgress(data) {
+            // Update the UI with the current step
+            $('#progress').text(data.step);
+        }
+
+        // Function to make AJAX requests for progress updates
+        function getProgress() {
+            $.ajax({
+                url: '/progress',
+                dataType: 'json',
+                success: function(data) {
+                    // Update the UI with the progress data
+                    updateProgress(data);
+
+                    // Make another request for the next progress update
+                    getProgress();
+                }
+            });
+        }
+
+        // Start getting progress updates when the document is ready
+        $(document).ready(function() {
+            getProgress();
+        });
+    </script>
+</head>
+<body>
+    <h1>Progress:</h1>
+    <p id="progress"></p>
+</body>
+</html>

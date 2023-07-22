@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<head>
+    <title>Tools and Techniques Project</title>
+    <style>
+        .loading {
+            display: none;
+        }
+        
+        .result {
+            display: none;
+        }
+    </style>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+             
+          
+            
+            $('#form').on('submit', function(event) {
+                event.preventDefault();
+                submitForm();
+            });
+        });
+
+        var numSteps = 5;
+  
+        function animateSteps() {
+            var currentStep = 1;
+            var animationInterval = setInterval(function() {
+                // Clear previous active step
+                $('.circle').removeClass('active');
+                
+                // Activate the current step
+                $('.step-' + currentStep + ' .circle').addClass('active');
+        
+                // Mark previous step as done
+                if (currentStep > 1) {
+                    $('.step-' + (currentStep - 1) + ' .circle').removeClass('active').addClass('done');
+                }
+                
+                // Increment the current step
+                currentStep++;
+                
+                // Check if all steps are completed
+                if (currentStep > numSteps) {
+                    clearInterval(animationInterval);
+                    //$('.loading-container').hide();
+                }
+            }, 15000);
+        }
+        function submitForm() {
+            // Show loading animation
+            $('#inputview').hide();
+          
+            $('#loading').css('display', 'flex');
+            animateSteps();
+            // Make API call
+            $.ajax({
+                url: '/',
+                type: 'POST',
+                data: {
+                    input_text: $('#input_text').val()
+                },
+                success: function(response) {
+                    showResult(response);
+                }
+            });
+           
+        }
+         
+        function showResult(result) {
+            // Hide loading animation
+            $('#loading').hide();
+            
+            // Display result
+            $('#result').html('<h3>Result:</h3><p>' + result + '</p> <video width="768" height="368" controls> <source src="static/output_subtitled.mp4" type="video/mp4"> </video>');
+            $('#result').show();
+        }
+    </script>
+</head>
+<body class="bg_container">
+    
+    <div  class="container">
+    <div id="inputview">
+	 <div class="prompt-container">
+		 <!-- <img class="logo" src="ai-logo-1.png" alt="AI Logo">-->
+		  <h1 class="h1-animation">
+			  <span>Welcome</span>
+			  <span>to</span>
+			  <span>AI</span>
+			  <span>Video</span>
+			  <span>Content</span>
+		  </h1>
+	</div>
+   
+	 <div class="prompt-container">
+        <form action="post" method="post" id="form" class="prompt-container">
+          <input type="text" id="input_text" name="input_text"class="prompt-input" placeholder="Enter your prompt query">
+          <input type="submit" class="generate-button" value="Genrate"/>
+        </div>
+      
+        <h2 class="h2-heading">Generate perfectly sized creatives for Facebook, Instagram, LinkedIn, Pinterest, Twitter and more!</h2>
+  </div>
+   <br>
+   
+   <div id="loading" class="loading">
+       <div id="box">
+           <div class="please-wait" id="box-content">
+               <div class="loading-spinner"></div>
+               <p>Please wait while processing...</p>
+                <div class="step-container">
+                     <div class="step step-1">
+                         <div class="circle"></div>
+                         <div class="text">Creating Content</div>
+                     </div>
+                     <div class="step step-2">
+                         <div class="circle"></div>
+                         <div class="text">Converting Text to Voice</div>
+                     </div>
+                     <div class="step step-3">
+                         <div class="circle"></div>
+                         <div class="text">Generating subtitles</div>
+                     </div>
+                     <div class="step step-4">
+                         <div class="circle"></div>
+                         <div class="text">Fetching related video</div>
+                     </div>
+                     <div class="step step-5">
+                         <div class="circle"></div>
+                         <div class="text">Rendering video</div>
+                     </div>
+                </div>
+           </div>
+          
+       </div>
+   </div>
+   
+   <div id="result" class="result">
+       <h3>Result:</h3>
+       <p></p>
+      <video width="768" height="368" controls>
+         <source src="static/video.mp4" type="video/mp4">
+        
+       </video>
+   </div>
+   </div>
+    
+    
+    {% if loading %}
+    <script>
+        $('#loading').show();
+    </script>
+    {% endif %}
+    
+    {% if result %}
+    <script>
+        showResult('{{ result }}');
+    </script>
+    {% endif %}
+    
+    
+    
+    {% if gptpromot %}
+    <script>
+        $('.step-1 .circle').addClass('done');
+    </script>
+    {% endif %}
+    
+    {% if texttospeech %}
+    <script>
+        $('.step-2 .circle').addClass('done');
+    </script>
+    {% endif %}
+    {% if gensubtitle %}
+    <script>
+        $('.step-3 .circle').addClass('done');
+    </script>
+    {% endif %}
+    {% if downloadingvideo %}
+    <script>
+        $('.step-4 .circle').addClass('done');
+    </script>
+    {% endif %}
+    {% if rendringvideo %}
+    <script>
+        $('.step-5 .circle').addClass('done');
+    </script>
+    {% endif %}
+    
+    
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Variable Value Update</title>
+</head>
+<body>
+    <h1>Variable Value: <span id="variable-value">{{ value }}</span></h1>
+
+    <script>
+        // Function to update the variable value in HTML
+        function updateValue(newValue) {
+            document.getElementById('variable-value').innerText = newValue;
+        }
+
+        // Function to fetch the updated value from the server
+        function fetchUpdatedValue() {
+            fetch('/get_value')
+                .then(response => response.json())
+                .then(data => updateValue(data.value))
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Fetch updated value initially on page load
+        fetchUpdatedValue();
+
+        // Fetch updated value every 1 second
+        setInterval(fetchUpdatedValue, 1000);
+    </script>
+</body>
+</html>

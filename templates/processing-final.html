@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing Animation</title>
+    <style>
+        /* Animation Styles */
+        .loading-container {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            display: none;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-top-color: #333;
+            animation: spin 1s infinite ease-in-out;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .step-container {
+            width: 400px;
+            margin: 50px auto;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .step .circle {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: #ccc;
+        }
+        
+        .step .circle.active,
+        .step .circle.done {
+            background-color: #2ecc71;
+        }
+        
+        .step .text {
+            font-size: 18px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Number of steps
+            var numSteps = 5;
+            
+            // Start the animation
+            animateSteps();
+            
+            function animateSteps() {
+                var currentStep = 1;
+                var animationInterval = setInterval(function() {
+                    // Clear previous active step
+                    $('.circle').removeClass('active');
+                    
+                    // Activate the current step
+                    $('.step-' + currentStep + ' .circle').addClass('active');
+
+                    // Mark previous step as done
+                    if (currentStep > 1) {
+                        $('.step-' + (currentStep - 1) + ' .circle').removeClass('active').addClass('done');
+                    }
+                    
+                    // Increment the current step
+                    currentStep++;
+                    
+                    // Check if all steps are completed
+                    if (currentStep > numSteps) {
+                        clearInterval(animationInterval);
+                        $('.loading-container').hide();
+                    }
+                }, 1000);
+            }
+
+            // Simulate loading animation
+            $('.loading-container').show();
+        });
+    </script>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="loading-text">Loading...</div>
+        <div class="loading"></div>
+    </div>
+    
+    <div class="step-container">
+        <div class="step step-1">
+            <div class="circle"></div>
+            <div class="text">Changing content</div>
+        </div>
+        <div class="step step-2">
+            <div class="circle"></div>
+            <div class="text">Converting Text to Voice</div>
+        </div>
+        <div class="step step-3">
+            <div class="circle"></div>
+            <div class="text">Generating subtitles</div>
+        </div>
+        <div class="step step-4">
+            <div class="circle"></div>
+            <div class="text">Fetching related video</div>
+        </div>
+        <div class="step step-5">
+            <div class="circle"></div>
+            <div class="text">Rendering video</div>
+        </div>
+    </div>
+</body>
+</html>
